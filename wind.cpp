@@ -1,4 +1,6 @@
 #include<Gl/glut.h>
+#include<stdio.h>
+#include<math.h>
 static GLfloat spin = 360.0; //fan rotation variable
 static GLfloat u = 0.45;
 static GLfloat v = 0.45;
@@ -9,11 +11,17 @@ static GLfloat d = 0.00;
 static GLfloat e = 0.00;
 static GLfloat a = -40; //clouds translation variable
 static int z = 0;
+GLfloat x = 0;
+GLfloat y = 0;
+int m, n;
 void init(void)
 {
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glShadeModel(GL_FLAT);
 }
+
+//Function for creating street light
+
 void streetlight()
 {
 	glPushMatrix(); //1st street light
@@ -69,6 +77,9 @@ void streetlight()
 	glutSolidCube(1.5);
 	glPopMatrix();
 }
+
+//Function for creating ground and sky
+
 void background()
 {
 	glColor3f(0.0, 0.1, 0.0);
@@ -86,6 +97,9 @@ void background()
 	glVertex2i(250.0, 0.0);
 	glEnd();
 }
+
+//Function for creating windmill's blades/fans
+
 void fan1()
 {
 	glPushMatrix();
@@ -140,6 +154,9 @@ void fan3()
 	glEnd();
 	glPopMatrix();
 }
+
+//Function for creating electric wires
+
 void wires()
 {
 	glColor3f(.8, .6, .8);
@@ -157,6 +174,9 @@ void wires()
 	glEnd();
 	glDisable(GL_LINE_STIPPLE);
 }
+
+//Function for creating power station to supply electricity
+
 void powerstation()
 {
 	GLint ax = 1.5, ay = 8;
@@ -182,6 +202,9 @@ void powerstation()
 	glVertex2i(ax + 1.0, ay - 5.0);//top right
 	glEnd();
 }
+
+//Function for creating a road
+
 void road()
 {
 	glColor3f(0.0, 0.0, 0.0);
@@ -192,13 +215,16 @@ void road()
 	glVertex2f(37, -40);
 	glEnd();
 }
+
+//Function for creating clouds in the sky
+
 void clouds()
 {
 	glPushMatrix();
 	glColor3f(0.4, 0.7, 0.9);
 	glLoadIdentity(); //clear the matrix
-	glTranslatef(a + 1, 40.0, -9.0); // viewing transformation
-	glScalef(2.0, 1.0, 1.0); // modeling transformation
+	glTranslatef(a + 1, 40.0, -9.0); //viewing transformation
+	glScalef(2.0, 1.0, 1.0); //modeling transformation
 	glutSolidSphere(2.0, 50, 56);
 	glLoadIdentity();
 	glTranslatef(a - 2.0, 40.0, -9.0);
@@ -224,8 +250,19 @@ void clouds()
 	glTranslatef(a + 36.0, 40.0, -9.0);
 	glScalef(3.0, 1.0, 1.0);
 	glutSolidSphere(2.0, 50, 56);
+	glLoadIdentity();
+	glTranslatef(a + 50.0, 40.0, -9.0);
+	glScalef(2, 1.0, 1.0);
+	glutSolidSphere(2.0, 50, 56);
+	glLoadIdentity();
+	glTranslatef(a + 56.0, 40.0, -9.0);
+	glScalef(2, 1.0, 1.0);
+	glutSolidSphere(2.0, 50, 56);
 	glPopMatrix();
 }
+
+//Function for creating roof top of huts
+
 void roof(GLint rux, GLint ruy, GLint rdx, GLint rdy)
 {
 	glPushMatrix();
@@ -236,6 +273,9 @@ void roof(GLint rux, GLint ruy, GLint rdx, GLint rdy)
 	glEnd();
 	glPopMatrix();
 }
+
+//Function for creating huts
+
 void hut(GLint rux, GLint ruy, GLint rdx, GLint rdy)
 {
 	GLint blx = rdx, bly = rdy - 9, brx = rdx + 10, bry = rdy - 9, kx = rdx - 8, ky = rdy + 1;
@@ -272,6 +312,9 @@ void hut(GLint rux, GLint ruy, GLint rdx, GLint rdy)
 	glVertex2i(brx - 3.5, bry + 5);//top right
 	glEnd();
 }
+
+//Function for creating windmill's pole
+
 void fanpole1()
 {
 	glColor3f(1.0, 1.0, 1.0);
@@ -302,6 +345,72 @@ void fanpole3()
 	glVertex2f(-31.5, 0.0);
 	glEnd();
 }
+
+//Function for creating a person
+
+void woman()
+{
+	glClearColor(0.48, 0.5, 0.5, 0.0);
+	glColor3f(1.0, 0.0, 0.0);
+	glBegin(GL_POLYGON);//veil
+	glVertex2f(21.0 + x, -17.0 + y);
+	glVertex2f(22.0 + x, -17.0 + y);
+	glVertex2f(22.5 + x, -20.0 + y);
+	glVertex2f(20.5 + x, -20.0 + y);
+	glEnd();
+	glColor3f(0.3, 0.15, 0.1);
+	glBegin(GL_POLYGON);//face
+	glVertex2f(21.0 + x, -18.0 + y);
+	glVertex2f(21.0 + x, -17.0 + y);
+	glVertex2f(22.0 + x, -17.0 + y);
+	glVertex2f(22.0 + x, -18.0 + y);
+	glEnd();
+	glBegin(GL_POLYGON);//neck
+	glVertex2f(21.5 + x, -17.0 + y);
+	glVertex2f(21.6 + x, -17.0 + y);
+	glVertex2f(21.6 + x, -18.5 + y);
+	glVertex2f(21.5 + x, -18.5 + y);
+	glEnd();
+	glColor3f(0.97, 0.45, 0.84);
+	glBegin(GL_POLYGON);//body
+	glVertex2f(21.0 + x, -18.5 + y);
+	glVertex2f(22.1 + x, -18.5 + y);
+	glVertex2f(22.1 + x, -20.0 + y);
+	glVertex2f(21.0 + x, -20.0 + y);
+	glEnd();
+	glColor3f(0.59, 0.137, 0.985);
+	glBegin(GL_POLYGON);//skirt
+	glVertex2f(21.0 + x, -20.0 + y);
+	glVertex2f(22.1 + x, -20.0 + y);
+	glVertex2f(22.7 + x, -21.0 + y);
+	glVertex2f(20.5 + x, -21.0 + y);
+	glEnd();
+	glColor3f(0.0, 0.0, 0.0);
+	glPointSize(1.4);
+	glBegin(GL_POINTS);//eyes
+	glVertex2f(21.3 + x, -17.30 + y);
+	glVertex2f(21.8 + x, -17.30 + y);
+	glEnd();
+	glBegin(GL_LINES);//nose
+	glVertex2f(21.6 + x, -17.6 + y);
+	glVertex2f(21.6 + x, -17.3 + y);
+	glEnd();
+	glBegin(GL_LINES);//smile
+	glVertex2f(21.5 + x, -17.8 + y);
+	glVertex2f(21.8 + x, -17.8 + y);
+	glEnd();
+	glColor3f(0.3, 0.15, 0.1);
+	glBegin(GL_POLYGON);//hand 1
+	glVertex2f(21.0 + x, -18.5 + y);
+	glVertex2f(20.5 + x, -20.0 + y);
+	glVertex2f(21.0 + x, -19.0 + y);
+	glEnd();
+	glBegin(GL_POLYGON);//hand 2
+	glVertex2f(22.1 + x, -18.5 + y);
+	glVertex2f(22.7 + x, -19.0 + y);
+	glVertex2f(22.1 + x, -19.0 + y);
+	glEnd();
+}
 void display(void)
 {
 	int b = 0;
@@ -320,11 +429,13 @@ void display(void)
 		background();
 		road();
 		hut(-29, -23, -24, -33);
-		hut(-18, -1, -14, -13);
+		hut(0, -11, 5, -21);
+		hut(-21, -1, -14, -11);
 		clouds();
 		powerstation();
 		wires();
 		streetlight();
+		woman();
 		fanpole1();
 		fanpole2();
 		fanpole3();
@@ -335,6 +446,9 @@ void display(void)
 		glFlush();
 	}
 }
+
+//Function for clockwise rotation of fans
+
 void clockwise(void)
 {
 	w = 0.3; u = 0; v = 1; b = 0.5; c = 1; d = 1; e = 0;
@@ -357,6 +471,9 @@ void fastclockwise(void)
 		spin = spin + 360.0;
 	glutPostRedisplay();
 }
+
+//Function for anticlockwise rotation of fans
+
 void anticlockwise(void)
 {
 	u = 0; w = .3; v = 1; b = 0.5; c = 1; d = 1, e = 0;
@@ -387,8 +504,23 @@ void fastanticlockwise(void)
 		spin = spin - 360.0;
 	glutPostRedisplay();
 }
-void reshape(void)
+
+//Function for creating keyboard interface for a user
+
+void mykey(unsigned char key, int m, int n)
 {
+	if (key == 'c') clockwise();
+	if (key == 'f') fastclockwise();
+	if (key == 'a') anticlockwise();
+	if (key == 'g') fastanticlockwise();
+	if (key == 'e') exit(0);
+	if (key == 'm') y += .1, x -= 0.1;
+	if (key == 'b') y -= .1, x += 0.1;
+	glutPostRedisplay();
+}
+void reshape(int w, int h)
+{
+	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-35.0, 35.0, -45.0, 45.0, -20.0, 20.0);
@@ -399,18 +531,15 @@ void menu(int id)
 {
 	switch (id)
 	{
-	case 1: u = v = w = b = 0.45; c = d = e = 1;
-		glutIdleFunc(display);
+	case 1: glutIdleFunc(clockwise);
 		break;
-	case 2: glutIdleFunc(clockwise);
+	case 2: glutIdleFunc(fastclockwise);
 		break;
-	case 3: glutIdleFunc(fastclockwise);
+	case 3: glutIdleFunc(anticlockwise);
 		break;
-	case 4: glutIdleFunc(anticlockwise);
+	case 4: glutIdleFunc(fastanticlockwise);
 		break;
-	case 5: glutIdleFunc(fastanticlockwise);
-		break;
-	case 6:exit(0);
+	case 5:exit(0);
 	}
 }
 int main(int argc, char** argv)
@@ -422,14 +551,17 @@ int main(int argc, char** argv)
 	glutCreateWindow("WINDMILL");
 	init();
 	glutDisplayFunc(display);
-	reshape();
+	glutReshapeFunc(reshape);
+	glutKeyboardFunc(mykey);
+
+	//creating keyboard interface
+
 	glutCreateMenu(menu);
-	glutAddMenuEntry("No Wind", 1);
-	glutAddMenuEntry("Wind CW", 2);
-	glutAddMenuEntry("Fast Wind CW", 3);
-	glutAddMenuEntry("Wind ACW", 4);
-	glutAddMenuEntry("Fast Wind ACW", 5);
-	glutAddMenuEntry("Quit", 6);
+	glutAddMenuEntry("Wind CW", 1);
+	glutAddMenuEntry("Fast Wind CW", 2);
+	glutAddMenuEntry("Wind ACW", 3);
+	glutAddMenuEntry("Fast Wind ACW", 4);
+	glutAddMenuEntry("Quit", 5);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	glutMainLoop();
 	return 0;
