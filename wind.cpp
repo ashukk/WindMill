@@ -102,8 +102,8 @@ void fan1()
 	glPushMatrix();
 	glLoadIdentity();
 	glColor3f(1, 1, 1);
-	glTranslatef(-8.0, 20.0, 2.0);//rotation about fixed point
-	glRotatef(spin, 0.0, 0.0, 1.0);
+	glTranslatef(-8.0, 20.0, 2.0);
+	glRotatef(spin, 0.0, 0.0, 1.0); //rotation about fixed point
 	glTranslatef(8.0, -20.0, -2.0);
 	glBegin(GL_TRIANGLES);//1st fan
 	glVertex3f(-8.0, 20.0, 2.0);
@@ -119,8 +119,8 @@ void fan2()
 {
 	glPushMatrix();
 	glLoadIdentity();
-	glTranslatef(-20.0, 20.0, 2.0); //rotation about fixed point
-	glRotatef(spin, 0.0, 0.0, 1.0);
+	glTranslatef(-20.0, 20.0, 2.0); 
+	glRotatef(spin, 0.0, 0.0, 1.0); //rotation about fixed point
 	glTranslatef(20.0, -20.0, -2.0);
 	glColor3f(1, 1, 1);
 	glBegin(GL_TRIANGLES); //2nd fan
@@ -137,8 +137,8 @@ void fan3()
 {
 	glPushMatrix();
 	glLoadIdentity();
-	glTranslatef(-32.0, 20.0, 2.0);//rotation about fixed point
-	glRotatef(spin, 0.0, 0.0, 1.0);
+	glTranslatef(-32.0, 20.0, 2.0);
+	glRotatef(spin, 0.0, 0.0, 1.0); //rotation about fixed point
 	glTranslatef(32.0, -20.0, -2.0);
 	glColor3f(1, 1, 1);
 	glBegin(GL_TRIANGLES);//3rd fan
@@ -219,9 +219,9 @@ void clouds()
 {
 	glPushMatrix();
 	glColor3f(0.4, 0.7, 0.9);
-	glLoadIdentity(); //clear the matrix
-	glTranslatef(a + 1, 40.0, -9.0); //viewing transformation
-	glScalef(2.0, 1.0, 1.0); //modeling transformation
+	glLoadIdentity();
+	glTranslatef(a + 1, 40.0, -9.0);
+	glScalef(2.0, 1.0, 1.0); 
 	glutSolidSphere(2.0, 50, 56);
 	glLoadIdentity();
 	glTranslatef(a - 2.0, 40.0, -9.0);
