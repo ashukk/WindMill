@@ -1,6 +1,5 @@
 #include<Gl/glut.h>
 #include<stdio.h>
-#include<math.h>
 static GLfloat spin = 360.0; //fan rotation variable
 static GLfloat u = 0.45;
 static GLfloat v = 0.45;
@@ -11,9 +10,7 @@ static GLfloat d = 0.00;
 static GLfloat e = 0.00;
 static GLfloat a = -40; //clouds translation variable
 static int z = 0;
-GLfloat x = 0;
-GLfloat y = 0;
-int m, n;
+
 void init(void)
 {
 	glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -346,71 +343,6 @@ void fanpole3()
 	glEnd();
 }
 
-//Function for creating a person
-
-void woman()
-{
-	glClearColor(0.48, 0.5, 0.5, 0.0);
-	glColor3f(1.0, 0.0, 0.0);
-	glBegin(GL_POLYGON);//veil
-	glVertex2f(21.0 + x, -17.0 + y);
-	glVertex2f(22.0 + x, -17.0 + y);
-	glVertex2f(22.5 + x, -20.0 + y);
-	glVertex2f(20.5 + x, -20.0 + y);
-	glEnd();
-	glColor3f(0.3, 0.15, 0.1);
-	glBegin(GL_POLYGON);//face
-	glVertex2f(21.0 + x, -18.0 + y);
-	glVertex2f(21.0 + x, -17.0 + y);
-	glVertex2f(22.0 + x, -17.0 + y);
-	glVertex2f(22.0 + x, -18.0 + y);
-	glEnd();
-	glBegin(GL_POLYGON);//neck
-	glVertex2f(21.5 + x, -17.0 + y);
-	glVertex2f(21.6 + x, -17.0 + y);
-	glVertex2f(21.6 + x, -18.5 + y);
-	glVertex2f(21.5 + x, -18.5 + y);
-	glEnd();
-	glColor3f(0.97, 0.45, 0.84);
-	glBegin(GL_POLYGON);//body
-	glVertex2f(21.0 + x, -18.5 + y);
-	glVertex2f(22.1 + x, -18.5 + y);
-	glVertex2f(22.1 + x, -20.0 + y);
-	glVertex2f(21.0 + x, -20.0 + y);
-	glEnd();
-	glColor3f(0.59, 0.137, 0.985);
-	glBegin(GL_POLYGON);//skirt
-	glVertex2f(21.0 + x, -20.0 + y);
-	glVertex2f(22.1 + x, -20.0 + y);
-	glVertex2f(22.7 + x, -21.0 + y);
-	glVertex2f(20.5 + x, -21.0 + y);
-	glEnd();
-	glColor3f(0.0, 0.0, 0.0);
-	glPointSize(1.4);
-	glBegin(GL_POINTS);//eyes
-	glVertex2f(21.3 + x, -17.30 + y);
-	glVertex2f(21.8 + x, -17.30 + y);
-	glEnd();
-	glBegin(GL_LINES);//nose
-	glVertex2f(21.6 + x, -17.6 + y);
-	glVertex2f(21.6 + x, -17.3 + y);
-	glEnd();
-	glBegin(GL_LINES);//smile
-	glVertex2f(21.5 + x, -17.8 + y);
-	glVertex2f(21.8 + x, -17.8 + y);
-	glEnd();
-	glColor3f(0.3, 0.15, 0.1);
-	glBegin(GL_POLYGON);//hand 1
-	glVertex2f(21.0 + x, -18.5 + y);
-	glVertex2f(20.5 + x, -20.0 + y);
-	glVertex2f(21.0 + x, -19.0 + y);
-	glEnd();
-	glBegin(GL_POLYGON);//hand 2
-	glVertex2f(22.1 + x, -18.5 + y);
-	glVertex2f(22.7 + x, -19.0 + y);
-	glVertex2f(22.1 + x, -19.0 + y);
-	glEnd();
-}
 void display(void)
 {
 	int b = 0;
@@ -435,7 +367,6 @@ void display(void)
 		powerstation();
 		wires();
 		streetlight();
-		woman();
 		fanpole1();
 		fanpole2();
 		fanpole3();
@@ -505,43 +436,34 @@ void fastanticlockwise(void)
 	glutPostRedisplay();
 }
 
-//Function for creating keyboard interface for a user
-
-void mykey(unsigned char key, int m, int n)
-{
-	if (key == 'c') clockwise();
-	if (key == 'f') fastclockwise();
-	if (key == 'a') anticlockwise();
-	if (key == 'g') fastanticlockwise();
-	if (key == 'e') exit(0);
-	if (key == 'm') y += .1, x -= 0.1;
-	if (key == 'b') y -= .1, x += 0.1;
-	glutPostRedisplay();
-}
 void reshape(int w, int h)
 {
-	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-35.0, 35.0, -45.0, 45.0, -20.0, 20.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
 void menu(int id)
 {
 	switch (id)
 	{
-	case 1: glutIdleFunc(clockwise);
+	case 1: u = v = w = b = 0.45; c = d = e = 1;
+		glutIdleFunc(display);
 		break;
-	case 2: glutIdleFunc(fastclockwise);
+	case 2: glutIdleFunc(clockwise);
 		break;
-	case 3: glutIdleFunc(anticlockwise);
+	case 3: glutIdleFunc(fastclockwise);
 		break;
-	case 4: glutIdleFunc(fastanticlockwise);
+	case 4: glutIdleFunc(anticlockwise);
 		break;
-	case 5:exit(0);
+	case 5: glutIdleFunc(fastanticlockwise);
+		break;
+	case 6:exit(0);
 	}
 }
+
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
@@ -552,16 +474,16 @@ int main(int argc, char** argv)
 	init();
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
-	glutKeyboardFunc(mykey);
 
 	//creating keyboard interface
 
 	glutCreateMenu(menu);
-	glutAddMenuEntry("Wind CW", 1);
-	glutAddMenuEntry("Fast Wind CW", 2);
-	glutAddMenuEntry("Wind ACW", 3);
-	glutAddMenuEntry("Fast Wind ACW", 4);
-	glutAddMenuEntry("Quit", 5);
+	glutAddMenuEntry("No Wind", 1);
+	glutAddMenuEntry("Wind CW",2);
+	glutAddMenuEntry("Fast Wind CW", 3);
+	glutAddMenuEntry("Wind ACW", 4);
+	glutAddMenuEntry("Fast Wind ACW", 5);
+	glutAddMenuEntry("Quit", 6);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	glutMainLoop();
 	return 0;
