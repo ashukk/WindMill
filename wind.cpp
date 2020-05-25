@@ -220,8 +220,8 @@ void clouds()
 	glPushMatrix();
 	glColor3f(0.4, 0.7, 0.9);
 	glLoadIdentity();
-	glTranslatef(a + 1, 40.0, -9.0);
-	glScalef(2.0, 1.0, 1.0); 
+	glTranslatef(a + 1, 40.0, -9.0); 
+	glScalef(2.0, 1.0, 1.0);
 	glutSolidSphere(2.0, 50, 56);
 	glLoadIdentity();
 	glTranslatef(a - 2.0, 40.0, -9.0);
@@ -438,6 +438,7 @@ void fastanticlockwise(void)
 
 void reshape(int w, int h)
 {
+	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-35.0, 35.0, -45.0, 45.0, -20.0, 20.0);
