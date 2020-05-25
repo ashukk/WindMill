@@ -476,7 +476,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
 
-	//creating keyboard interface
+	//creating mouse interface
 
 	glutCreateMenu(menu);
 	glutAddMenuEntry("No Wind", 1);
